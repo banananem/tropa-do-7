@@ -189,11 +189,10 @@ MODO PARCERIA ATIVO
 let modo="parceria"
 
 const itens={
-"Five-Seven":{normal:303,parceria:273},
-"Tec-9":{normal:296,parceria:266},
-"AKS":{normal:341,parceria:307},
-"AK-47":{normal:363,parceria:327},
-"G3":{normal:450,parceria:405},
+"Five-7":{normal:303.75,parceria:273.35},
+"AK-47":{normal:363.60,parceria:327.35},
+"Micro Uzi":{normal:296.25,parceria:266.60},
+"MP5":{normal:262.50,parceria:247.50},
 "LSD":{normal:350,parceria:300}
 }
 
@@ -201,6 +200,10 @@ const lista=document.getElementById("lista")
 
 function formatar(valor){
 return valor.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})
+}
+
+function gerarId(nome){
+return nome.replace(/\s+/g,'_')
 }
 
 function criarLista(){
@@ -218,7 +221,7 @@ div.innerHTML=`
 <div class="preco">💵 ${formatar(itens[nome][modo])} unitário</div>
 </div>
 
-<input type="number" min="0" value="0" id="q_${nome}">
+<input type="number" min="0" value="0" id="q_${gerarId(nome)}">
 `
 
 lista.appendChild(div)
@@ -250,7 +253,7 @@ let total=0
 
 for(let nome in itens){
 
-let qtd=document.getElementById("q_"+nome)
+let qtd=document.getElementById("q_"+gerarId(nome))
 
 if(qtd){
 
