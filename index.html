@@ -2,277 +2,66 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TD7 Calculadora</title>
-
 <style>
-
-body{
-background: url("tropa7.png") no-repeat center center fixed;
-background-size: cover;
-font-family:Arial;
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
-margin:0;
-}
-
-.container{
-width:680px;
-padding:28px;
-border-radius:16px;
-
-background:rgba(10,15,31,0.85);
-backdrop-filter: blur(6px);
-
-box-shadow:
-0 0 25px #009dff,
-0 0 50px rgba(0,140,255,0.5);
-}
-
-h1{
-text-align:center;
-color:#4fc3ff;
-letter-spacing:3px;
-margin-bottom:18px;
-font-size:28px;
-text-shadow:0 0 15px #4fc3ff;
-}
-
-.status{
-text-align:center;
-padding:8px;
-border-radius:8px;
-border:1px solid #4fc3ff;
-background:#071022;
-margin-bottom:18px;
-font-size:15px;
-}
-
-.dot{
-font-size:18px;
-margin-right:6px;
-}
-
-.botoes{
-text-align:center;
-margin-bottom:18px;
-}
-
-button{
-padding:8px 16px;
-border:none;
-border-radius:6px;
-margin:5px;
-font-weight:bold;
-cursor:pointer;
-font-size:14px;
-transition:0.2s;
-}
-
-.parceria{
-background:#00c853;
-color:black;
-box-shadow:0 0 12px #00ff7b;
-}
-
-.normal{
-background:#c62828;
-color:white;
-box-shadow:0 0 12px #ff4d4d;
-}
-
-button:hover{
-transform:scale(1.05);
-}
-
-.item{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:12px 0;
-border-bottom:1px solid rgba(79,195,255,0.2);
-}
-
-.nome{
-font-size:17px;
-}
-
-.preco{
-font-size:13px;
-opacity:0.7;
-}
-
-input{
-width:60px;
-padding:6px;
-border-radius:6px;
-border:1px solid #4fc3ff;
-background:#061226;
-color:#4fc3ff;
-text-align:center;
-font-weight:bold;
-font-size:16px;
-}
-
-.resultados{
-display:flex;
-justify-content:space-between;
-margin-top:22px;
-}
-
-.box{
-width:32%;
-padding:16px;
-border-radius:10px;
-background:#061226;
-border:1px solid #4fc3ff;
-text-align:center;
-}
-
-.box div:first-child{
-font-size:15px;
-}
-
-.valor{
-font-size:24px;
-margin-top:8px;
-color:#4fc3ff;
-text-shadow:0 0 10px #4fc3ff;
-}
-
+body{background:#071022;font-family:Arial,sans-serif;color:white;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}
+.container{width:700px;padding:28px;border-radius:16px;background:rgba(10,15,31,0.95);box-shadow:0 0 25px #009dff}
+h1{text-align:center;color:#4fc3ff;letter-spacing:2px}.item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(79,195,255,0.2)}
+input{width:70px;padding:6px;border-radius:6px;border:1px solid #4fc3ff;background:#061226;color:#4fc3ff;text-align:center;font-weight:bold}
+button{padding:8px 16px;border:none;border-radius:6px;margin:5px;font-weight:bold;cursor:pointer}
+.parceria{background:#00c853;color:black}.normal{background:#c62828;color:white}
+.resultados{display:flex;justify-content:space-between;margin-top:22px;gap:10px}.box{flex:1;padding:16px;border-radius:10px;background:#061226;border:1px solid #4fc3ff;text-align:center}.valor{font-size:24px;margin-top:8px;color:#4fc3ff}
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
-<h1>🔫 TD7 MUNIÇÃO</h1>
-
-<div class="status" id="status">
-<span class="dot">🟢</span>
-MODO PARCERIA ATIVO
-</div>
-
-<div class="botoes">
+<h1>🔫 TD7 CALCULADORA</h1>
+<div style="text-align:center;margin-bottom:18px;">
 <button class="parceria" onclick="setModo('parceria')">COM PARCERIA</button>
 <button class="normal" onclick="setModo('normal')">SEM PARCERIA</button>
 </div>
-
 <div id="lista"></div>
-
 <div class="resultados">
-
-<div class="box">
-<div>💰 TOTAL BRUTO</div>
-<div class="valor" id="total">R$ 0,00</div>
+<div class="box"><div>💰 TOTAL</div><div class="valor" id="total">R$ 0,00</div></div>
+<div class="box"><div>👤 VENDEDOR (30%)</div><div class="valor" id="vendedor">R$ 0,00</div></div>
+<div class="box"><div>🏢 EMPRESA (70%)</div><div class="valor" id="empresa">R$ 0,00</div></div>
 </div>
-
-<div class="box">
-<div>👤 VENDEDOR (30%)</div>
-<div class="valor" id="vendedor">R$ 0,00</div>
 </div>
-
-<div class="box">
-<div>🏢 EMPRESA (70%)</div>
-<div class="valor" id="empresa">R$ 0,00</div>
-</div>
-
-</div>
-
-</div>
-
 <script>
-
-let modo="parceria"
-
+let modo='parceria';
 const itens={
-"Five-7":{normal:303.75,parceria:273.35},
-"AK-47":{normal:363.60,parceria:327.35},
-"Micro Uzi":{normal:296.25,parceria:266.60},
-"MP5":{normal:262.50,parceria:247.50},
-"LSD":{normal:350,parceria:300}
-}
-
-const lista=document.getElementById("lista")
-
-function formatar(valor){
-return valor.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})
-}
-
-function gerarId(nome){
-return nome.replace(/\s+/g,'_')
-}
-
+  'Five':{parceria:526.50,normal:531.81},
+  'MTAR':{parceria:702.00,normal:780.00},
+  'AKS':{parceria:661.50,normal:735.00},
+  'Uzi':{parceria:560.25,normal:622.50},
+  'Metafetamina':{parceria:600.00,normal:700.00}
+};
+const lista=document.getElementById('lista');
+function formatar(valor){return valor.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
+function gerarId(nome){return nome.replace(/\s+/g,'_');}
 function criarLista(){
-
-lista.innerHTML=""
-
-for(let nome in itens){
-
-let div=document.createElement("div")
-div.className="item"
-
-div.innerHTML=`
-<div>
-<div class="nome">🔸 ${nome}</div>
-<div class="preco">💵 ${formatar(itens[nome][modo])} unitário</div>
-</div>
-
-<input type="number" min="0" value="0" id="q_${gerarId(nome)}">
-`
-
-lista.appendChild(div)
-
+  lista.innerHTML='';
+  for(let nome in itens){
+    let div=document.createElement('div');
+    div.className='item';
+    div.innerHTML=`<div><div>🔸 ${nome}</div><div style="font-size:13px;opacity:.7">💵 ${formatar(itens[nome][modo])} unitário</div></div><input type="number" min="0" value="0" id="q_${gerarId(nome)}">`;
+    lista.appendChild(div);
+  }
 }
-
-}
-
-function setModo(n){
-
-modo=n
-
-if(n=="parceria"){
-document.getElementById("status").innerHTML="<span class='dot'>🟢</span> MODO PARCERIA ATIVO"
-}else{
-document.getElementById("status").innerHTML="<span class='dot'>🔴</span> MODO SEM PARCERIA"
-}
-
-criarLista()
-calcular()
-
-}
-
-document.addEventListener("input",calcular)
-
+function setModo(n){modo=n;criarLista();calcular();}
+document.addEventListener('input',calcular);
 function calcular(){
-
-let total=0
-
-for(let nome in itens){
-
-let qtd=document.getElementById("q_"+gerarId(nome))
-
-if(qtd){
-
-let preco=itens[nome][modo]
-total+=qtd.value*preco
-
+  let total=0;
+  for(let nome in itens){
+    let qtd=document.getElementById('q_'+gerarId(nome));
+    if(qtd){total += Number(qtd.value||0)*itens[nome][modo];}
+  }
+  document.getElementById('total').innerText=formatar(total);
+  document.getElementById('vendedor').innerText=formatar(total*0.30);
+  document.getElementById('empresa').innerText=formatar(total*0.70);
 }
-
-}
-
-document.getElementById("total").innerText=formatar(total)
-document.getElementById("vendedor").innerText=formatar(total*0.30)
-document.getElementById("empresa").innerText=formatar(total*0.70)
-
-}
-
-criarLista()
-
+criarLista();
 </script>
-
 </body>
 </html>
