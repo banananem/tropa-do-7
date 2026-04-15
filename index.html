@@ -1,67 +1,232 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TD7 Calculadora</title>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TD7 Calculadora Pro</title>
 <style>
-body{background:#071022;font-family:Arial,sans-serif;color:white;display:flex;justify-content:center;align-items:center;min-height:100vh;margin:0}
-.container{width:700px;padding:28px;border-radius:16px;background:rgba(10,15,31,0.95);box-shadow:0 0 25px #009dff}
-h1{text-align:center;color:#4fc3ff;letter-spacing:2px}.item{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(79,195,255,0.2)}
-input{width:70px;padding:6px;border-radius:6px;border:1px solid #4fc3ff;background:#061226;color:#4fc3ff;text-align:center;font-weight:bold}
-button{padding:8px 16px;border:none;border-radius:6px;margin:5px;font-weight:bold;cursor:pointer}
-.parceria{background:#00c853;color:black}.normal{background:#c62828;color:white}
-.resultados{display:flex;justify-content:space-between;margin-top:22px;gap:10px}.box{flex:1;padding:16px;border-radius:10px;background:#061226;border:1px solid #4fc3ff;text-align:center}.valor{font-size:24px;margin-top:8px;color:#4fc3ff}
+:root{
+  --bg:#071022;
+  --card:#0b1730ee;
+  --accent:#4fc3ff;
+  --accent-2:#00c853;
+  --danger:#c62828;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  min-height:100vh;
+  font-family:Arial,sans-serif;
+  background:radial-gradient(circle at top,#0d1f45 0%,#071022 70%);
+  color:#fff;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  overflow-x:hidden;
+}
+.container{
+  width:min(900px,95%);
+  padding:28px;
+  border-radius:22px;
+  background:var(--card);
+  box-shadow:0 0 35px rgba(79,195,255,.35);
+  backdrop-filter:blur(12px);
+  animation:fadeIn .6s ease;
+}
+@keyframes fadeIn{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
+}
+h1{text-align:center;color:var(--accent);letter-spacing:2px}
+.toolbar{text-align:center;margin-bottom:20px}
+button{
+  padding:10px 18px;
+  border:none;
+  border-radius:10px;
+  margin:5px;
+  font-weight:bold;
+  cursor:pointer;
+  transition:.25s;
+}
+button:hover{transform:translateY(-2px) scale(1.03)}
+
+.parceria{background:var(--accent-2);color:#000}
+.normal{background:var(--danger);color:#fff}
+
+.status-modo{
+  margin:12px 0 18px;
+  text-align:center;
+  font-weight:bold;
+  font-size:18px;
+  padding:12px;
+  border-radius:12px;
+  transition:.3s;
+  letter-spacing:1px;
+}
+
+.status-parceria{
+  background:rgba(0,200,83,.15);
+  color:#00c853;
+  border:1px solid rgba(0,200,83,.45);
+  box-shadow:0 0 15px rgba(0,200,83,.2);
+}
+
+.status-normal{
+  background:rgba(198,40,40,.15);
+  color:#ff6b6b;
+  border:1px solid rgba(198,40,40,.45);
+  box-shadow:0 0 15px rgba(198,40,40,.2);
+}
+
+.grid{display:grid;gap:12px}
+
+.item{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:14px 16px;
+  border-radius:14px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(79,195,255,.15);
+  transition:.25s;
+}
+
+.item:hover{
+  transform:translateX(6px);
+  box-shadow:0 0 18px rgba(79,195,255,.15);
+}
+
+input{
+  width:80px;
+  padding:8px;
+  border-radius:8px;
+  border:1px solid var(--accent);
+  background:#061226;
+  color:var(--accent);
+  text-align:center;
+  font-weight:bold;
+  font-size:16px;
+}
+
+.resultados{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+  margin-top:24px;
+}
+
+.box{
+  padding:18px;
+  border-radius:16px;
+  background:#061226;
+  border:1px solid rgba(79,195,255,.3);
+  text-align:center;
+}
+
+.valor{
+  font-size:28px;
+  margin-top:8px;
+  color:var(--accent);
+  font-weight:bold;
+}
 </style>
 </head>
 <body>
 <div class="container">
-<h1>🔫 TD7 CALCULADORA</h1>
-<div style="text-align:center;margin-bottom:18px;">
-<button class="parceria" onclick="setModo('parceria')">COM PARCERIA</button>
-<button class="normal" onclick="setModo('normal')">SEM PARCERIA</button>
+  <h1>🔫 TD7 CALCULADORA PRO</h1>
+
+  <div class="toolbar">
+    <button class="parceria" onclick="setModo('parceria')">COM PARCERIA</button>
+    <button class="normal" onclick="setModo('normal')">SEM PARCERIA</button>
+  </div>
+
+  <div id="statusModo" class="status-modo status-parceria">
+    🟢 MODO ATIVO: COM PARCERIA
+  </div>
+
+  <div id="lista" class="grid"></div>
+
+  <div class="resultados">
+    <div class="box"><div>💰 TOTAL</div><div class="valor" id="total">R$ 0,00</div></div>
+    <div class="box"><div>👤 VENDEDOR (30%)</div><div class="valor" id="vendedor">R$ 0,00</div></div>
+    <div class="box"><div>🏢 EMPRESA (70%)</div><div class="valor" id="empresa">R$ 0,00</div></div>
+  </div>
 </div>
-<div id="lista"></div>
-<div class="resultados">
-<div class="box"><div>💰 TOTAL</div><div class="valor" id="total">R$ 0,00</div></div>
-<div class="box"><div>👤 VENDEDOR (30%)</div><div class="valor" id="vendedor">R$ 0,00</div></div>
-<div class="box"><div>🏢 EMPRESA (70%)</div><div class="valor" id="empresa">R$ 0,00</div></div>
-</div>
-</div>
+
 <script>
 let modo='parceria';
+
 const itens={
-  'Five':{parceria:526.50,normal:531.81},
-  'MTAR':{parceria:702.00,normal:780.00},
-  'AKS':{parceria:661.50,normal:735.00},
-  'Uzi':{parceria:560.25,normal:622.50},
-  'Metafetamina':{parceria:600.00,normal:700.00}
+  Five:{parceria:526.50,normal:531.81},
+  MTAR:{parceria:702.00,normal:780.00},
+  AKS:{parceria:661.50,normal:735.00},
+  Uzi:{parceria:560.25,normal:622.50},
+  Metafetamina:{parceria:600.00,normal:700.00}
 };
+
 const lista=document.getElementById('lista');
-function formatar(valor){return valor.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
-function gerarId(nome){return nome.replace(/\s+/g,'_');}
+
+const formatar=v=>v.toLocaleString('pt-BR',{
+  style:'currency',
+  currency:'BRL'
+});
+
+const gerarId=n=>n.replace(/\s+/g,'_');
+
 function criarLista(){
   lista.innerHTML='';
-  for(let nome in itens){
-    let div=document.createElement('div');
-    div.className='item';
-    div.innerHTML=`<div><div>🔸 ${nome}</div><div style="font-size:13px;opacity:.7">💵 ${formatar(itens[nome][modo])} unitário</div></div><input type="number" min="0" value="0" id="q_${gerarId(nome)}">`;
-    lista.appendChild(div);
-  }
+
+  Object.entries(itens).forEach(([nome,valores])=>{
+    lista.innerHTML += `
+      <div class="item">
+        <div>
+          <div>🔸 ${nome}</div>
+          <div style="font-size:13px;opacity:.75">
+            💵 ${formatar(valores[modo])} unitário
+          </div>
+        </div>
+        <input type="number" min="0" value="0"
+          id="q_${gerarId(nome)}"
+          oninput="calcular()">
+      </div>`;
+  });
 }
-function setModo(n){modo=n;criarLista();calcular();}
-document.addEventListener('input',calcular);
+
+function setModo(n){
+  modo=n;
+
+  const status=document.getElementById('statusModo');
+
+  if(modo==='parceria'){
+    status.className='status-modo status-parceria';
+    status.innerHTML='🟢 MODO ATIVO: COM PARCERIA';
+  }else{
+    status.className='status-modo status-normal';
+    status.innerHTML='🔴 MODO ATIVO: SEM PARCERIA';
+  }
+
+  criarLista();
+  calcular();
+}
+
 function calcular(){
   let total=0;
-  for(let nome in itens){
-    let qtd=document.getElementById('q_'+gerarId(nome));
-    if(qtd){total += Number(qtd.value||0)*itens[nome][modo];}
-  }
+
+  Object.keys(itens).forEach(nome=>{
+    const qtd=Number(
+      document.getElementById('q_'+gerarId(nome))?.value||0
+    );
+
+    total += qtd*itens[nome][modo];
+  });
+
   document.getElementById('total').innerText=formatar(total);
   document.getElementById('vendedor').innerText=formatar(total*0.30);
   document.getElementById('empresa').innerText=formatar(total*0.70);
 }
+
 criarLista();
+calcular();
 </script>
 </body>
 </html>
