@@ -151,16 +151,19 @@ input{
 </div>
 <script>
 let modo='parceria';
+
 const itens={
-  Five:{parceria:526.50,normal:531.81},
+  Five:{parceria:526.00,normal:585.00},
   MTAR:{parceria:702.00,normal:780.00},
-  AKS:{parceria:661.50,normal:735.00},
-  Uzi:{parceria:560.25,normal:622.50},
+  AKS:{parceria:661.00,normal:735.00},
+  Uzi:{parceria:560.00,normal:622.00},
   Metafetamina:{parceria:600.00,normal:700.00}
 };
+
 const lista=document.getElementById('lista');
 const formatar=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
 const gerarId=n=>n.replace(/\s+/g,'_');
+
 function criarLista(){
   lista.innerHTML='';
   Object.entries(itens).forEach(([nome,valores])=>{
@@ -174,6 +177,7 @@ function criarLista(){
       </div>`;
   });
 }
+
 function setModo(n){
   modo=n;
   const status=document.getElementById('statusModo');
@@ -187,6 +191,7 @@ function setModo(n){
   criarLista();
   calcular();
 }
+
 function calcular(){
   let total=0;
   Object.keys(itens).forEach(nome=>{
@@ -197,6 +202,7 @@ function calcular(){
   document.getElementById('vendedor').innerText=formatar(total*0.30);
   document.getElementById('empresa').innerText=formatar(total*0.70);
 }
+
 criarLista();
 calcular();
 </script>
