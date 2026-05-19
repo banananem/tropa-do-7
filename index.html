@@ -1,206 +1,651 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>TD7 Calculadora Pro</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#071022;
-  --card:#0b1730ee;
-  --accent:#4fc3ff;
-  --accent-2:#00c853;
-  --danger:#c62828;
+:root {
+  --bg: #060d1a;
+  --panel: #080f20;
+  --card: rgba(8,15,32,0.92);
+  --border: rgba(79,195,255,0.18);
+  --accent: #4fc3ff;
+  --accent-dim: rgba(79,195,255,0.12);
+  --green: #00e676;
+  --green-dim: rgba(0,230,118,0.12);
+  --red: #ff3d3d;
+  --red-dim: rgba(255,61,61,0.12);
+  --gold: #ffd740;
+  --text: #c8ddf0;
+  --muted: rgba(200,221,240,0.45);
+  --glow-accent: 0 0 20px rgba(79,195,255,0.35);
+  --glow-green: 0 0 20px rgba(0,230,118,0.35);
+  --glow-red: 0 0 20px rgba(255,61,61,0.35);
 }
-*{box-sizing:border-box}
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:Arial,sans-serif;
-  background-image:url('novo-fundo.png');
-  background-size:cover;
-  background-position:center;
-  background-repeat:no-repeat;
-  background-attachment:fixed;
-  color:#fff;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  overflow-x:hidden;
-  position:relative;
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  font-family: 'Rajdhani', sans-serif;
+  background: var(--bg);
+  background-image:
+    url('novo-fundo.png'),
+    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,195,255,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0,230,118,0.05) 0%, transparent 50%);
+  background-size: cover, auto, auto;
+  background-position: center, center, center;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+  background-attachment: fixed, fixed, fixed;
+  color: var(--text);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 32px 16px;
+  overflow-x: hidden;
 }
-body::before{
-  content:'';
-  position:fixed;
-  inset:0;
-  background:rgba(7,16,34,.35);
-  z-index:0;
+
+/* Scanline overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    rgba(0,0,0,0.03) 3px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+  z-index: 999;
 }
-.container{
-  position:relative;
-  z-index:1;
-  width:min(900px,95%);
-  padding:28px;
-  border-radius:22px;
-  background:var(--card);
-  box-shadow:0 0 35px rgba(79,195,255,.35);
-  backdrop-filter:blur(12px);
-  animation:fadeIn .6s ease;
+
+/* Dark overlay for background image */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(6,13,26,0.72);
+  z-index: 0;
+  pointer-events: none;
 }
-@keyframes fadeIn{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:none}
+
+.container {
+  position: relative;
+  z-index: 1;
+  width: min(860px, 100%);
+  animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
-h1{text-align:center;color:var(--accent);letter-spacing:2px}
-.toolbar{text-align:center;margin-bottom:20px}
-button{
-  padding:10px 18px;
-  border:none;
-  border-radius:10px;
-  margin:5px;
-  font-weight:bold;
-  cursor:pointer;
-  transition:.25s;
+
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to   { opacity: 1; transform: none; }
 }
-button:hover{transform:translateY(-2px) scale(1.03)}
-.parceria{background:var(--accent-2);color:#000}
-.normal{background:var(--danger);color:#fff}
-.status-modo{
-  margin:12px 0 18px;
-  text-align:center;
-  font-weight:bold;
-  font-size:18px;
-  padding:12px;
-  border-radius:12px;
-  transition:.3s;
-  letter-spacing:1px;
+
+/* ── HEADER ── */
+.header {
+  text-align: center;
+  margin-bottom: 28px;
+  position: relative;
 }
-.status-parceria{
-  background:rgba(0,200,83,.15);
-  color:#00c853;
-  border:1px solid rgba(0,200,83,.45);
-  box-shadow:0 0 15px rgba(0,200,83,.2);
+
+.header-badge {
+  display: inline-block;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: var(--accent);
+  opacity: 0.7;
+  text-transform: uppercase;
+  margin-bottom: 6px;
 }
-.status-normal{
-  background:rgba(198,40,40,.15);
-  color:#ff6b6b;
-  border:1px solid rgba(198,40,40,.45);
-  box-shadow:0 0 15px rgba(198,40,40,.2);
+
+.header h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(38px, 7vw, 64px);
+  letter-spacing: 6px;
+  line-height: 1;
+  background: linear-gradient(135deg, #fff 20%, var(--accent) 60%, #fff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(79,195,255,0.5));
 }
-.grid{display:grid;gap:12px}
-.item{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:14px 16px;
-  border-radius:14px;
-  background:rgba(255,255,255,.03);
-  border:1px solid rgba(79,195,255,.15);
-  transition:.25s;
+
+.header-sub {
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  margin-top: 4px;
+  font-family: 'Share Tech Mono', monospace;
 }
-.item:hover{
-  transform:translateX(6px);
-  box-shadow:0 0 18px rgba(79,195,255,.15);
+
+.header-line {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  margin-top: 18px;
+  opacity: 0.5;
 }
-input{
-  width:80px;
-  padding:8px;
-  border-radius:8px;
-  border:1px solid var(--accent);
-  background:#061226;
-  color:var(--accent);
-  text-align:center;
-  font-weight:bold;
-  font-size:16px;
+
+/* ── CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  backdrop-filter: blur(18px);
+  box-shadow: 0 0 40px rgba(79,195,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
+  margin-bottom: 16px;
 }
-.resultados{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:14px;
-  margin-top:24px;
+
+/* ── MODE SWITCHER ── */
+.mode-switcher {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
 }
-.box{
-  padding:18px;
-  border-radius:16px;
-  background:#061226;
-  border:1px solid rgba(79,195,255,.3);
-  text-align:center;
+
+.mode-btn {
+  flex: 1;
+  padding: 14px 20px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.03);
+  color: var(--muted);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+  overflow: hidden;
 }
-.valor{
-  font-size:28px;
-  margin-top:8px;
-  color:var(--accent);
-  font-weight:bold;
+
+.mode-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.mode-btn.parceria::before { background: var(--green-dim); }
+.mode-btn.normal::before   { background: var(--red-dim); }
+
+.mode-btn:hover { transform: translateY(-2px); }
+.mode-btn:hover::before { opacity: 1; }
+
+.mode-btn.active-parceria {
+  border-color: var(--green);
+  color: var(--green);
+  box-shadow: var(--glow-green), inset 0 0 20px rgba(0,230,118,0.08);
+}
+.mode-btn.active-parceria::before { opacity: 1; }
+
+.mode-btn.active-normal {
+  border-color: var(--red);
+  color: var(--red);
+  box-shadow: var(--glow-red), inset 0 0 20px rgba(255,61,61,0.08);
+}
+.mode-btn.active-normal::before { opacity: 1; }
+
+.mode-btn .btn-icon { margin-right: 8px; font-size: 16px; }
+
+/* ── STATUS BADGE ── */
+.status-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 3px;
+  transition: all 0.3s ease;
+  margin-bottom: 24px;
+}
+
+.status-strip.parceria {
+  background: var(--green-dim);
+  border: 1px solid rgba(0,230,118,0.3);
+  color: var(--green);
+}
+
+.status-strip.normal {
+  background: var(--red-dim);
+  border: 1px solid rgba(255,61,61,0.3);
+  color: var(--red);
+}
+
+.pulse {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  animation: pulseAnim 1.4s infinite;
+}
+
+.parceria .pulse { background: var(--green); box-shadow: 0 0 8px var(--green); }
+.normal .pulse   { background: var(--red);   box-shadow: 0 0 8px var(--red); }
+
+@keyframes pulseAnim {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ── ITEMS GRID ── */
+.items-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.025);
+  border: 1px solid var(--border);
+  transition: all 0.22s ease;
+  animation: slideIn 0.4s ease both;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+.item-row:hover {
+  border-color: rgba(79,195,255,0.35);
+  background: rgba(79,195,255,0.04);
+  transform: translateX(4px);
+  box-shadow: -4px 0 0 var(--accent), var(--glow-accent);
+}
+
+.item-icon {
+  font-size: 22px;
+  width: 36px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.item-info { flex: 1; min-width: 0; }
+
+.item-name {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.item-price {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  margin-top: 2px;
+  transition: color 0.3s;
+}
+
+.item-price.parceria-price { color: rgba(0,230,118,0.7); }
+.item-price.normal-price   { color: rgba(255,61,61,0.7); }
+
+.item-subtotal {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 14px;
+  color: var(--accent);
+  min-width: 90px;
+  text-align: right;
+  transition: all 0.2s;
+}
+
+.item-subtotal.nonzero {
+  color: var(--gold);
+  text-shadow: 0 0 10px rgba(255,215,64,0.4);
+}
+
+/* ── QTY INPUT ── */
+.qty-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.qty-wrap:focus-within {
+  border-color: var(--accent);
+  box-shadow: var(--glow-accent);
+}
+
+.qty-btn {
+  width: 32px;
+  height: 40px;
+  background: rgba(79,195,255,0.07);
+  border: none;
+  color: var(--accent);
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: monospace;
+  line-height: 1;
+}
+
+.qty-btn:hover { background: rgba(79,195,255,0.18); }
+.qty-btn:active { background: rgba(79,195,255,0.28); }
+
+.qty-input {
+  width: 52px;
+  height: 40px;
+  background: #061226;
+  border: none;
+  color: var(--accent);
+  text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 16px;
+  font-weight: bold;
+  outline: none;
+  -moz-appearance: textfield;
+}
+
+.qty-input::-webkit-outer-spin-button,
+.qty-input::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+/* ── RESULTS ── */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+@media (max-width: 540px) {
+  .results-grid { grid-template-columns: 1fr; }
+  .mode-switcher { flex-direction: column; }
+}
+
+.result-box {
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: rgba(6,18,38,0.9);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.result-box:hover { transform: translateY(-3px); }
+
+.result-box::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.result-box.total::before   { background: linear-gradient(90deg, var(--accent), #fff); }
+.result-box.vendedor::before { background: linear-gradient(90deg, var(--green), #fff); }
+.result-box.empresa::before  { background: linear-gradient(90deg, var(--gold), #fff); }
+
+.result-box.total   { box-shadow: 0 0 25px rgba(79,195,255,0.1); }
+.result-box.vendedor { box-shadow: 0 0 25px rgba(0,230,118,0.1); }
+.result-box.empresa  { box-shadow: 0 0 25px rgba(255,215,64,0.1); }
+
+.result-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: var(--muted);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.result-pct {
+  font-size: 11px;
+  font-family: 'Share Tech Mono', monospace;
+  opacity: 0.5;
+  margin-top: 2px;
+}
+
+.result-value {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: clamp(20px, 4vw, 28px);
+  font-weight: bold;
+  margin-top: 6px;
+  transition: all 0.25s;
+  letter-spacing: 1px;
+}
+
+.result-box.total   .result-value { color: var(--accent); }
+.result-box.vendedor .result-value { color: var(--green); }
+.result-box.empresa  .result-value { color: var(--gold); }
+
+.result-value.pop {
+  animation: pop 0.25s ease;
+}
+
+@keyframes pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ── CLEAR BTN ── */
+.clear-btn {
+  width: 100%;
+  padding: 12px;
+  background: rgba(255,61,61,0.07);
+  border: 1px solid rgba(255,61,61,0.25);
+  border-radius: 10px;
+  color: rgba(255,100,100,0.8);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 6px;
+}
+
+.clear-btn:hover {
+  background: rgba(255,61,61,0.15);
+  border-color: var(--red);
+  color: var(--red);
+  box-shadow: var(--glow-red);
+}
+
+/* ── FOOTER ── */
+.footer {
+  text-align: center;
+  margin-top: 18px;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  color: rgba(79,195,255,0.25);
 }
 </style>
 </head>
 <body>
 <div class="container">
-  <h1>🔫 TD7 CALCULADORA PRO</h1>
-  <div class="toolbar">
-    <button class="parceria" onclick="setModo('parceria')">COM PARCERIA</button>
-    <button class="normal" onclick="setModo('normal')">SEM PARCERIA</button>
-  </div>
-  <div id="statusModo" class="status-modo status-parceria">🟢 MODO ATIVO: COM PARCERIA</div>
-  <div id="lista" class="grid"></div>
-  <div class="resultados">
-    <div class="box"><div>💰 TOTAL</div><div class="valor" id="total">R$ 0,00</div></div>
-    <div class="box"><div>👤 VENDEDOR (30%)</div><div class="valor" id="vendedor">R$ 0,00</div></div>
-    <div class="box"><div>🏢 EMPRESA (70%)</div><div class="valor" id="empresa">R$ 0,00</div></div>
-  </div>
-</div>
-<script>
-let modo='parceria';
 
-const itens={
-  Five:{parceria:526.00,normal:585.00},
-  MTAR:{parceria:702.00,normal:780.00},
-  AKS:{parceria:661.00,normal:735.00},
-  Uzi:{parceria:560.00,normal:622.00},
-  Metafetamina:{parceria:600.00,normal:700.00}
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-badge">// SISTEMA OPERACIONAL //</div>
+    <h1>🔫 TD7 CALCULADORA PRO</h1>
+    <div class="header-sub">GESTÃO DE VENDAS · DIVISÃO AUTOMÁTICA</div>
+    <div class="header-line"></div>
+  </div>
+
+  <!-- MODE + STATUS -->
+  <div class="card">
+    <div class="mode-switcher">
+      <button class="mode-btn parceria active-parceria" onclick="setModo('parceria')">
+        <span class="btn-icon">🤝</span> COM PARCERIA
+      </button>
+      <button class="mode-btn normal" onclick="setModo('normal')">
+        <span class="btn-icon">🔒</span> SEM PARCERIA
+      </button>
+    </div>
+
+    <div id="statusStrip" class="status-strip parceria">
+      <div class="pulse"></div>
+      <span id="statusText">MODO ATIVO: COM PARCERIA</span>
+    </div>
+
+    <!-- ITEMS -->
+    <div id="lista" class="items-grid"></div>
+
+    <button class="clear-btn" onclick="limparTudo()">✕ LIMPAR TUDO</button>
+  </div>
+
+  <!-- RESULTS -->
+  <div class="card">
+    <div class="results-grid">
+      <div class="result-box total">
+        <div class="result-label">💰 Total Geral</div>
+        <div class="result-value" id="total">R$ 0,00</div>
+      </div>
+      <div class="result-box vendedor">
+        <div class="result-label">👤 Vendedor</div>
+        <div class="result-value" id="vendedor">R$ 0,00</div>
+        <div class="result-pct">30%</div>
+      </div>
+      <div class="result-box empresa">
+        <div class="result-label">🏢 Empresa</div>
+        <div class="result-value" id="empresa">R$ 0,00</div>
+        <div class="result-pct">70%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">TD7 CALCULADORA PRO · v2.0 · SISTEMA INTERNO</div>
+</div>
+
+<script>
+const ITENS = {
+  'Five-seveN': { icon: '🔫', parceria: 526.00, normal: 585.00 },
+  'MTAR':       { icon: '⚙️', parceria: 702.00, normal: 780.00 },
+  'AKS':        { icon: '🪖', parceria: 661.00, normal: 735.00 },
+  'Uzi':        { icon: '💥', parceria: 560.00, normal: 622.00 },
+  'Metafetamina':{ icon:'🧪', parceria: 600.00, normal: 700.00 },
 };
 
-const lista=document.getElementById('lista');
-const formatar=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
-const gerarId=n=>n.replace(/\s+/g,'_');
+let modo = 'parceria';
+const fmt = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const id  = n => 'q_' + n.replace(/\W/g,'_');
 
-function criarLista(){
-  lista.innerHTML='';
-  Object.entries(itens).forEach(([nome,valores])=>{
+function criarLista() {
+  const lista = document.getElementById('lista');
+  lista.innerHTML = '';
+  Object.entries(ITENS).forEach(([nome, dado], i) => {
+    const priceClass = modo === 'parceria' ? 'parceria-price' : 'normal-price';
     lista.innerHTML += `
-      <div class="item">
-        <div>
-          <div>🔸 ${nome}</div>
-          <div style="font-size:13px;opacity:.75">💵 ${formatar(valores[modo])} unitário</div>
+      <div class="item-row" style="animation-delay:${i * 0.06}s">
+        <div class="item-icon">${dado.icon}</div>
+        <div class="item-info">
+          <div class="item-name">${nome}</div>
+          <div class="item-price ${priceClass}" id="p_${id(nome)}">${fmt(dado[modo])} / un</div>
         </div>
-        <input type="number" min="0" value="0" id="q_${gerarId(nome)}" oninput="calcular()">
+        <div class="item-subtotal" id="s_${id(nome)}">—</div>
+        <div class="qty-wrap">
+          <button class="qty-btn" onclick="ajustar('${nome}', -1)">−</button>
+          <input class="qty-input" type="number" min="0" value="0" id="${id(nome)}" oninput="calcular()">
+          <button class="qty-btn" onclick="ajustar('${nome}', 1)">+</button>
+        </div>
       </div>`;
   });
 }
 
-function setModo(n){
-  modo=n;
-  const status=document.getElementById('statusModo');
-  if(modo==='parceria'){
-    status.className='status-modo status-parceria';
-    status.innerHTML='🟢 MODO ATIVO: COM PARCERIA';
-  }else{
-    status.className='status-modo status-normal';
-    status.innerHTML='🔴 MODO ATIVO: SEM PARCERIA';
-  }
-  criarLista();
+function ajustar(nome, delta) {
+  const inp = document.getElementById(id(nome));
+  const val = Math.max(0, (parseInt(inp.value) || 0) + delta);
+  inp.value = val;
   calcular();
 }
 
-function calcular(){
-  let total=0;
-  Object.keys(itens).forEach(nome=>{
-    const qtd=Number(document.getElementById('q_'+gerarId(nome))?.value||0);
-    total += qtd*itens[nome][modo];
+function setModo(n) {
+  modo = n;
+  document.querySelectorAll('.mode-btn').forEach(b => {
+    b.classList.remove('active-parceria', 'active-normal');
   });
-  document.getElementById('total').innerText=formatar(total);
-  document.getElementById('vendedor').innerText=formatar(total*0.30);
-  document.getElementById('empresa').innerText=formatar(total*0.70);
+
+  const strip  = document.getElementById('statusStrip');
+  const stText = document.getElementById('statusText');
+
+  if (modo === 'parceria') {
+    document.querySelector('.mode-btn.parceria').classList.add('active-parceria');
+    strip.className  = 'status-strip parceria';
+    stText.textContent = 'MODO ATIVO: COM PARCERIA';
+  } else {
+    document.querySelector('.mode-btn.normal').classList.add('active-normal');
+    strip.className  = 'status-strip normal';
+    stText.textContent = 'MODO ATIVO: SEM PARCERIA';
+  }
+
+  // Atualiza preços inline sem recriar
+  Object.entries(ITENS).forEach(([nome, dado]) => {
+    const el = document.getElementById('p_' + id(nome));
+    if (el) {
+      el.textContent = fmt(dado[modo]) + ' / un';
+      el.className = `item-price ${modo === 'parceria' ? 'parceria-price' : 'normal-price'}`;
+    }
+  });
+
+  calcular();
+}
+
+function popEl(el) {
+  el.classList.remove('pop');
+  void el.offsetWidth;
+  el.classList.add('pop');
+}
+
+function calcular() {
+  let total = 0;
+
+  Object.entries(ITENS).forEach(([nome, dado]) => {
+    const qtd = Math.max(0, parseInt(document.getElementById(id(nome))?.value) || 0);
+    const sub  = qtd * dado[modo];
+    total += sub;
+
+    const subEl = document.getElementById('s_' + id(nome));
+    if (subEl) {
+      subEl.textContent = qtd > 0 ? fmt(sub) : '—';
+      subEl.classList.toggle('nonzero', qtd > 0);
+    }
+  });
+
+  const setVal = (elId, val) => {
+    const el = document.getElementById(elId);
+    if (el && el.textContent !== fmt(val)) { el.textContent = fmt(val); popEl(el); }
+  };
+
+  setVal('total',    total);
+  setVal('vendedor', total * 0.30);
+  setVal('empresa',  total * 0.70);
+}
+
+function limparTudo() {
+  Object.keys(ITENS).forEach(nome => {
+    const inp = document.getElementById(id(nome));
+    if (inp) inp.value = 0;
+  });
+  calcular();
 }
 
 criarLista();
