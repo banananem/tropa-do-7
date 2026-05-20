@@ -3,649 +3,340 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>TD7 Calculadora Pro</title>
+<title>TD7 Sistema Pro</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;600;700&family=Share+Tech+Mono&family=Bebas+Neue&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #060d1a;
-  --panel: #080f20;
-  --card: rgba(8,15,32,0.92);
-  --border: rgba(79,195,255,0.18);
-  --accent: #4fc3ff;
-  --accent-dim: rgba(79,195,255,0.12);
-  --green: #00e676;
-  --green-dim: rgba(0,230,118,0.12);
-  --red: #ff3d3d;
-  --red-dim: rgba(255,61,61,0.12);
-  --gold: #ffd740;
-  --text: #c8ddf0;
-  --muted: rgba(200,221,240,0.45);
-  --glow-accent: 0 0 20px rgba(79,195,255,0.35);
-  --glow-green: 0 0 20px rgba(0,230,118,0.35);
-  --glow-red: 0 0 20px rgba(255,61,61,0.35);
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#060d1a;--panel:#080f20;--card:rgba(8,15,32,0.92);
+  --border:rgba(79,195,255,0.18);--accent:#4fc3ff;--accent-dim:rgba(79,195,255,0.12);
+  --green:#00e676;--green-dim:rgba(0,230,118,0.12);
+  --red:#ff3d3d;--red-dim:rgba(255,61,61,0.12);
+  --gold:#ffd740;--text:#c8ddf0;--muted:rgba(200,221,240,0.45);
 }
+body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);padding:0;}
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+.td7-wrap{min-height:100vh;padding:24px 16px;background:var(--bg);background-image:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(79,195,255,0.06) 0%,transparent 60%);max-width:860px;margin:0 auto;}
 
-body {
-  min-height: 100vh;
-  font-family: 'Rajdhani', sans-serif;
-  background: var(--bg);
-  background-image:
-    url('novo-fundo.png'),
-    radial-gradient(ellipse 80% 60% at 50% 0%, rgba(79,195,255,0.07) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 40% at 80% 100%, rgba(0,230,118,0.05) 0%, transparent 50%);
-  background-size: cover, auto, auto;
-  background-position: center, center, center;
-  background-repeat: no-repeat, no-repeat, no-repeat;
-  background-attachment: fixed, fixed, fixed;
-  color: var(--text);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 32px 16px;
-  overflow-x: hidden;
-}
+.header{text-align:center;margin-bottom:20px;}
+.header-badge{font-size:10px;letter-spacing:4px;color:var(--accent);opacity:.7;font-family:'Share Tech Mono',monospace;display:block;margin-bottom:4px;}
+.header h1{font-family:'Bebas Neue',cursive;font-size:clamp(32px,6vw,56px);letter-spacing:5px;color:#fff;text-shadow:0 0 30px rgba(79,195,255,0.4);}
+.header-sub{font-size:11px;letter-spacing:3px;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-top:2px;}
+.header-line{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin-top:14px;opacity:.4;}
 
-/* Scanline overlay */
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 3px,
-    rgba(0,0,0,0.03) 3px,
-    rgba(0,0,0,0.03) 4px
-  );
-  pointer-events: none;
-  z-index: 999;
-}
+.nav-tabs{display:flex;gap:0;margin-bottom:0;border-bottom:1px solid var(--border);}
+.nav-tab{flex:1;padding:14px 10px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-bottom:none;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .2s;text-align:center;}
+.nav-tab:first-child{border-radius:12px 0 0 0;}
+.nav-tab:last-child{border-radius:0 12px 0 0;}
+.nav-tab.active{background:rgba(79,195,255,0.08);border-color:var(--accent);color:var(--accent);border-bottom:1px solid var(--bg);}
+.nav-tab:hover:not(.active){color:var(--text);background:rgba(255,255,255,0.04);}
 
-/* Dark overlay for background image */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background: rgba(6,13,26,0.72);
-  z-index: 0;
-  pointer-events: none;
-}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
 
-.container {
-  position: relative;
-  z-index: 1;
-  width: min(860px, 100%);
-  animation: revealUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
+.card{background:var(--card);border:1px solid var(--border);border-radius:0 0 18px 18px;padding:22px;backdrop-filter:blur(10px);margin-bottom:14px;}
+.card-inner{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:14px;}
 
-@keyframes revealUp {
-  from { opacity: 0; transform: translateY(32px); }
-  to   { opacity: 1; transform: none; }
-}
+.mode-switcher{display:flex;gap:10px;margin-bottom:18px;}
+.mode-btn{flex:1;padding:13px 16px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,0.03);color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .22s;}
+.mode-btn.active-parceria{border-color:var(--green);color:var(--green);background:var(--green-dim);box-shadow:0 0 18px rgba(0,230,118,0.2);}
+.mode-btn.active-normal{border-color:var(--red);color:var(--red);background:var(--red-dim);box-shadow:0 0 18px rgba(255,61,61,0.2);}
 
-/* ── HEADER ── */
-.header {
-  text-align: center;
-  margin-bottom: 28px;
-  position: relative;
-}
+.status-strip{display:flex;align-items:center;justify-content:center;gap:10px;padding:9px 18px;border-radius:10px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;margin-bottom:20px;}
+.status-strip.parceria{background:var(--green-dim);border:1px solid rgba(0,230,118,0.3);color:var(--green);}
+.status-strip.normal{background:var(--red-dim);border:1px solid rgba(255,61,61,0.3);color:var(--red);}
+.pulse{width:7px;height:7px;border-radius:50%;animation:pulseA 1.4s infinite;}
+.parceria .pulse{background:var(--green);box-shadow:0 0 7px var(--green);}
+.normal .pulse{background:var(--red);box-shadow:0 0 7px var(--red);}
+@keyframes pulseA{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
+@keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
 
-.header-badge {
-  display: inline-block;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 11px;
-  letter-spacing: 4px;
-  color: var(--accent);
-  opacity: 0.7;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
+.items-grid{display:flex;flex-direction:column;gap:9px;}
+.item-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:12px;background:rgba(255,255,255,0.025);border:1px solid var(--border);transition:all .2s;}
+.item-row:hover{border-color:rgba(79,195,255,0.35);background:rgba(79,195,255,0.04);transform:translateX(3px);}
+.item-icon{font-size:20px;width:32px;text-align:center;flex-shrink:0;}
+.item-info{flex:1;min-width:0;}
+.item-name{font-size:16px;font-weight:700;letter-spacing:1.5px;color:#fff;}
+.item-price{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--muted);margin-top:2px;}
+.item-price.parceria-price{color:rgba(0,230,118,.7);}
+.item-price.normal-price{color:rgba(255,61,61,.7);}
+.item-subtotal{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--accent);min-width:86px;text-align:right;}
+.item-subtotal.nonzero{color:var(--gold);text-shadow:0 0 8px rgba(255,215,64,.4);}
 
-.header h1 {
-  font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(38px, 7vw, 64px);
-  letter-spacing: 6px;
-  line-height: 1;
-  background: linear-gradient(135deg, #fff 20%, var(--accent) 60%, #fff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  filter: drop-shadow(0 0 18px rgba(79,195,255,0.5));
-}
+.qty-wrap{display:flex;align-items:center;border:1px solid var(--border);border-radius:10px;overflow:hidden;flex-shrink:0;}
+.qty-btn{width:30px;height:38px;background:rgba(79,195,255,0.07);border:none;color:var(--accent);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;font-family:monospace;}
+.qty-btn:hover{background:rgba(79,195,255,0.18);}
+.qty-input{width:48px;height:38px;background:#061226;border:none;color:var(--accent);text-align:center;font-family:'Share Tech Mono',monospace;font-size:15px;font-weight:bold;outline:none;-moz-appearance:textfield;}
+.qty-input::-webkit-outer-spin-button,.qty-input::-webkit-inner-spin-button{-webkit-appearance:none;}
 
-.header-sub {
-  font-size: 13px;
-  letter-spacing: 3px;
-  color: var(--muted);
-  margin-top: 4px;
-  font-family: 'Share Tech Mono', monospace;
-}
+.results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.result-box{border-radius:14px;padding:18px;text-align:center;border:1px solid var(--border);background:rgba(6,18,38,0.9);}
+.result-box::before{content:'';display:block;height:2px;border-radius:2px;margin-bottom:10px;}
+.result-box.total::before{background:linear-gradient(90deg,var(--accent),#fff);}
+.result-box.vendedor::before{background:linear-gradient(90deg,var(--green),#fff);}
+.result-box.empresa::before{background:linear-gradient(90deg,var(--gold),#fff);}
+.result-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--muted);}
+.result-value{font-family:'Share Tech Mono',monospace;font-size:clamp(17px,3.5vw,24px);font-weight:bold;margin-top:5px;}
+.result-pct{font-size:10px;font-family:'Share Tech Mono',monospace;opacity:.5;margin-top:2px;}
+.result-box.total .result-value{color:var(--accent);}
+.result-box.vendedor .result-value{color:var(--green);}
+.result-box.empresa .result-value{color:var(--gold);}
 
-.header-line {
-  width: 100%;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  margin-top: 18px;
-  opacity: 0.5;
-}
+.clear-btn{width:100%;padding:11px;background:rgba(255,61,61,0.07);border:1px solid rgba(255,61,61,0.25);border-radius:10px;color:rgba(255,100,100,.8);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .2s;margin-top:6px;}
+.clear-btn:hover{background:rgba(255,61,61,0.15);border-color:var(--red);color:var(--red);}
 
-/* ── CARD ── */
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 18px;
-  padding: 24px;
-  backdrop-filter: blur(18px);
-  box-shadow: 0 0 40px rgba(79,195,255,0.08), inset 0 1px 0 rgba(255,255,255,0.05);
-  margin-bottom: 16px;
-}
+.hist-section-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);opacity:.7;margin-bottom:12px;display:block;}
+.hist-hero{position:relative;width:100%;height:340px;border-radius:14px;overflow:hidden;margin-bottom:22px;}
+.hist-hero img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
+.hist-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 65%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:22px;}
+.hist-hero-tag{font-size:10px;font-weight:700;letter-spacing:4px;color:var(--green);margin-bottom:4px;font-family:'Share Tech Mono',monospace;}
+.hist-hero-title{font-family:'Bebas Neue',cursive;font-size:clamp(28px,5vw,46px);color:#fff;letter-spacing:3px;line-height:1.1;}
+.hist-hero-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
 
-/* ── MODE SWITCHER ── */
-.mode-switcher {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 20px;
-}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.stat-box{background:rgba(8,15,32,0.8);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
+.stat-num{font-family:'Bebas Neue',cursive;font-size:28px;color:var(--accent);letter-spacing:2px;}
+.stat-lbl{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:3px;}
 
-.mode-btn {
-  flex: 1;
-  padding: 14px 20px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: rgba(255,255,255,0.03);
-  color: var(--muted);
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 2px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  position: relative;
-  overflow: hidden;
-}
+.hist-block{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;margin-bottom:22px;}
+.hist-block.rev{direction:rtl;}
+.hist-block.rev>*{direction:ltr;}
+.hist-text h2{font-family:'Bebas Neue',cursive;font-size:22px;letter-spacing:2px;color:#fff;margin-bottom:8px;}
+.hist-text p{font-size:14px;line-height:1.75;color:var(--muted);}
+.hist-tag{display:inline-block;margin-top:10px;padding:5px 12px;background:var(--green-dim);border:1px solid rgba(0,230,118,.3);color:var(--green);border-radius:8px;font-size:11px;font-weight:700;letter-spacing:2px;font-family:'Share Tech Mono',monospace;}
+.hist-img{border-radius:12px;overflow:hidden;height:220px;}
+.hist-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+.hist-img:hover img{transform:scale(1.04);}
 
-.mode-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 0.25s;
-}
+.quote-box{background:rgba(0,230,118,0.05);border-left:3px solid var(--green);padding:16px 18px;margin:18px 0;border-radius:0 10px 10px 0;}
+.quote-box p{font-size:14px;line-height:1.7;color:var(--text);font-style:italic;}
 
-.mode-btn.parceria::before { background: var(--green-dim); }
-.mode-btn.normal::before   { background: var(--red-dim); }
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
+.gal-item{border-radius:10px;overflow:hidden;height:160px;}
+.gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+.gal-item:hover img{transform:scale(1.05);}
 
-.mode-btn:hover { transform: translateY(-2px); }
-.mode-btn:hover::before { opacity: 1; }
+.divider{border:none;border-top:1px solid var(--border);margin:18px 0;}
+.footer{text-align:center;margin-top:14px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(79,195,255,.2);}
 
-.mode-btn.active-parceria {
-  border-color: var(--green);
-  color: var(--green);
-  box-shadow: var(--glow-green), inset 0 0 20px rgba(0,230,118,0.08);
-}
-.mode-btn.active-parceria::before { opacity: 1; }
-
-.mode-btn.active-normal {
-  border-color: var(--red);
-  color: var(--red);
-  box-shadow: var(--glow-red), inset 0 0 20px rgba(255,61,61,0.08);
-}
-.mode-btn.active-normal::before { opacity: 1; }
-
-.mode-btn .btn-icon { margin-right: 8px; font-size: 16px; }
-
-/* ── STATUS BADGE ── */
-.status-strip {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px 20px;
-  border-radius: 10px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 13px;
-  letter-spacing: 3px;
-  transition: all 0.3s ease;
-  margin-bottom: 24px;
-}
-
-.status-strip.parceria {
-  background: var(--green-dim);
-  border: 1px solid rgba(0,230,118,0.3);
-  color: var(--green);
-}
-
-.status-strip.normal {
-  background: var(--red-dim);
-  border: 1px solid rgba(255,61,61,0.3);
-  color: var(--red);
-}
-
-.pulse {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  animation: pulseAnim 1.4s infinite;
-}
-
-.parceria .pulse { background: var(--green); box-shadow: 0 0 8px var(--green); }
-.normal .pulse   { background: var(--red);   box-shadow: 0 0 8px var(--red); }
-
-@keyframes pulseAnim {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.4; transform: scale(0.7); }
-}
-
-/* ── ITEMS GRID ── */
-.items-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.item-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px 18px;
-  border-radius: 12px;
-  background: rgba(255,255,255,0.025);
-  border: 1px solid var(--border);
-  transition: all 0.22s ease;
-  animation: slideIn 0.4s ease both;
-}
-
-@keyframes slideIn {
-  from { opacity: 0; transform: translateX(-14px); }
-  to   { opacity: 1; transform: none; }
-}
-
-.item-row:hover {
-  border-color: rgba(79,195,255,0.35);
-  background: rgba(79,195,255,0.04);
-  transform: translateX(4px);
-  box-shadow: -4px 0 0 var(--accent), var(--glow-accent);
-}
-
-.item-icon {
-  font-size: 22px;
-  width: 36px;
-  text-align: center;
-  flex-shrink: 0;
-}
-
-.item-info { flex: 1; min-width: 0; }
-
-.item-name {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #fff;
-  line-height: 1.2;
-}
-
-.item-price {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 2px;
-  transition: color 0.3s;
-}
-
-.item-price.parceria-price { color: rgba(0,230,118,0.7); }
-.item-price.normal-price   { color: rgba(255,61,61,0.7); }
-
-.item-subtotal {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 14px;
-  color: var(--accent);
-  min-width: 90px;
-  text-align: right;
-  transition: all 0.2s;
-}
-
-.item-subtotal.nonzero {
-  color: var(--gold);
-  text-shadow: 0 0 10px rgba(255,215,64,0.4);
-}
-
-/* ── QTY INPUT ── */
-.qty-wrap {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  overflow: hidden;
-  flex-shrink: 0;
-  transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.qty-wrap:focus-within {
-  border-color: var(--accent);
-  box-shadow: var(--glow-accent);
-}
-
-.qty-btn {
-  width: 32px;
-  height: 40px;
-  background: rgba(79,195,255,0.07);
-  border: none;
-  color: var(--accent);
-  font-size: 18px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.15s;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: monospace;
-  line-height: 1;
-}
-
-.qty-btn:hover { background: rgba(79,195,255,0.18); }
-.qty-btn:active { background: rgba(79,195,255,0.28); }
-
-.qty-input {
-  width: 52px;
-  height: 40px;
-  background: #061226;
-  border: none;
-  color: var(--accent);
-  text-align: center;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 16px;
-  font-weight: bold;
-  outline: none;
-  -moz-appearance: textfield;
-}
-
-.qty-input::-webkit-outer-spin-button,
-.qty-input::-webkit-inner-spin-button { -webkit-appearance: none; }
-
-/* ── RESULTS ── */
-.results-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-}
-
-@media (max-width: 540px) {
-  .results-grid { grid-template-columns: 1fr; }
-  .mode-switcher { flex-direction: column; }
-}
-
-.result-box {
-  border-radius: 14px;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid var(--border);
-  background: rgba(6,18,38,0.9);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.result-box:hover { transform: translateY(-3px); }
-
-.result-box::before {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 2px;
-}
-
-.result-box.total::before   { background: linear-gradient(90deg, var(--accent), #fff); }
-.result-box.vendedor::before { background: linear-gradient(90deg, var(--green), #fff); }
-.result-box.empresa::before  { background: linear-gradient(90deg, var(--gold), #fff); }
-
-.result-box.total   { box-shadow: 0 0 25px rgba(79,195,255,0.1); }
-.result-box.vendedor { box-shadow: 0 0 25px rgba(0,230,118,0.1); }
-.result-box.empresa  { box-shadow: 0 0 25px rgba(255,215,64,0.1); }
-
-.result-label {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: var(--muted);
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-.result-pct {
-  font-size: 11px;
-  font-family: 'Share Tech Mono', monospace;
-  opacity: 0.5;
-  margin-top: 2px;
-}
-
-.result-value {
-  font-family: 'Share Tech Mono', monospace;
-  font-size: clamp(20px, 4vw, 28px);
-  font-weight: bold;
-  margin-top: 6px;
-  transition: all 0.25s;
-  letter-spacing: 1px;
-}
-
-.result-box.total   .result-value { color: var(--accent); }
-.result-box.vendedor .result-value { color: var(--green); }
-.result-box.empresa  .result-value { color: var(--gold); }
-
-.result-value.pop {
-  animation: pop 0.25s ease;
-}
-
-@keyframes pop {
-  0%   { transform: scale(1); }
-  50%  { transform: scale(1.08); }
-  100% { transform: scale(1); }
-}
-
-/* ── CLEAR BTN ── */
-.clear-btn {
-  width: 100%;
-  padding: 12px;
-  background: rgba(255,61,61,0.07);
-  border: 1px solid rgba(255,61,61,0.25);
-  border-radius: 10px;
-  color: rgba(255,100,100,0.8);
-  font-family: 'Rajdhani', sans-serif;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 3px;
-  cursor: pointer;
-  transition: all 0.2s;
-  margin-top: 6px;
-}
-
-.clear-btn:hover {
-  background: rgba(255,61,61,0.15);
-  border-color: var(--red);
-  color: var(--red);
-  box-shadow: var(--glow-red);
-}
-
-/* ── FOOTER ── */
-.footer {
-  text-align: center;
-  margin-top: 18px;
-  font-family: 'Share Tech Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 3px;
-  color: rgba(79,195,255,0.25);
+@media(max-width:520px){
+  .hist-block{grid-template-columns:1fr;}
+  .hist-block.rev{direction:ltr;}
+  .gallery{grid-template-columns:1fr 1fr;}
+  .results-grid,.stats-grid{grid-template-columns:1fr;}
+  .mode-switcher{flex-direction:column;}
 }
 </style>
 </head>
 <body>
-<div class="container">
 
-  <!-- HEADER -->
+<div class="td7-wrap">
+
   <div class="header">
-    <div class="header-badge">// SISTEMA OPERACIONAL //</div>
-    <h1>🔫 TD7 CALCULADORA PRO</h1>
-    <div class="header-sub">GESTÃO DE VENDAS · DIVISÃO AUTOMÁTICA</div>
+    <span class="header-badge">// SISTEMA OPERACIONAL TD7 //</span>
+    <h1>TD7 SISTEMA PRO</h1>
+    <div class="header-sub">GESTÃO INTERNA · CALCULADORA · HISTÓRIA</div>
     <div class="header-line"></div>
   </div>
 
-  <!-- MODE + STATUS -->
-  <div class="card">
-    <div class="mode-switcher">
-      <button class="mode-btn parceria active-parceria" onclick="setModo('parceria')">
-        <span class="btn-icon">🤝</span> COM PARCERIA
-      </button>
-      <button class="mode-btn normal" onclick="setModo('normal')">
-        <span class="btn-icon">🔒</span> SEM PARCERIA
-      </button>
-    </div>
-
-    <div id="statusStrip" class="status-strip parceria">
-      <div class="pulse"></div>
-      <span id="statusText">MODO ATIVO: COM PARCERIA</span>
-    </div>
-
-    <!-- ITEMS -->
-    <div id="lista" class="items-grid"></div>
-
-    <button class="clear-btn" onclick="limparTudo()">✕ LIMPAR TUDO</button>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="switchTab('calc', this)">🔫 CALCULADORA</div>
+    <div class="nav-tab" onclick="switchTab('hist', this)">📖 HISTÓRIA</div>
   </div>
 
-  <!-- RESULTS -->
-  <div class="card">
-    <div class="results-grid">
-      <div class="result-box total">
-        <div class="result-label">💰 Total Geral</div>
-        <div class="result-value" id="total">R$ 0,00</div>
+  <!-- ABA CALCULADORA -->
+  <div id="tab-calc" class="tab-content active">
+    <div class="card">
+      <div class="mode-switcher">
+        <button class="mode-btn parceria active-parceria" onclick="setModo('parceria')">🤝 COM PARCERIA</button>
+        <button class="mode-btn normal" onclick="setModo('normal')">🔒 SEM PARCERIA</button>
       </div>
-      <div class="result-box vendedor">
-        <div class="result-label">👤 Vendedor</div>
-        <div class="result-value" id="vendedor">R$ 0,00</div>
-        <div class="result-pct">30%</div>
+      <div id="statusStrip" class="status-strip parceria">
+        <div class="pulse"></div>
+        <span id="statusText">MODO ATIVO: COM PARCERIA</span>
       </div>
-      <div class="result-box empresa">
-        <div class="result-label">🏢 Empresa</div>
-        <div class="result-value" id="empresa">R$ 0,00</div>
-        <div class="result-pct">70%</div>
+      <div id="lista" class="items-grid"></div>
+      <button class="clear-btn" onclick="limparTudo()">✕ LIMPAR TUDO</button>
+    </div>
+    <div class="card-inner">
+      <div class="results-grid">
+        <div class="result-box total">
+          <div class="result-label">💰 TOTAL GERAL</div>
+          <div class="result-value" id="total">R$ 0,00</div>
+        </div>
+        <div class="result-box vendedor">
+          <div class="result-label">👤 VENDEDOR</div>
+          <div class="result-value" id="vendedor">R$ 0,00</div>
+          <div class="result-pct">30%</div>
+        </div>
+        <div class="result-box empresa">
+          <div class="result-label">🏢 EMPRESA</div>
+          <div class="result-value" id="empresa">R$ 0,00</div>
+          <div class="result-pct">70%</div>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="footer">TD7 CALCULADORA PRO · v2.0 · SISTEMA INTERNO</div>
+  <!-- ABA HISTÓRIA -->
+  <div id="tab-hist" class="tab-content">
+    <div class="card" style="border-radius:0 0 18px 18px;">
+
+      <div class="hist-hero">
+        <img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__3_.webp" alt="Tropa do 7">
+        <div class="hist-hero-overlay">
+          <div class="hist-hero-tag">// EST. FIVEM · ROLEPLAY //</div>
+          <div class="hist-hero-title">TROPA DO 7</div>
+          <div class="hist-hero-sub">De carros iniciais às ruas — a história de quem não desistiu</div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box"><div class="stat-num">TD7</div><div class="stat-lbl">IDENTIFICAÇÃO</div></div>
+        <div class="stat-box"><div class="stat-num">20+</div><div class="stat-lbl">MEMBROS ATIVOS</div></div>
+        <div class="stat-box"><div class="stat-num">∞</div><div class="stat-lbl">LEALDADE</div></div>
+      </div>
+
+      <span class="hist-section-label">// A ORIGEM //</span>
+      <div class="hist-block">
+        <div class="hist-text">
+          <h2>COMEÇOU DO ZERO</h2>
+          <p>A Tropa do 7 nasceu da forma mais humilde possível: poucos amigos, carros iniciais, e muita vontade de construir algo próprio. No começo a rotina era simples — rodar pelos bairros tentando recrutar alguém que acreditasse no projeto. O respeito não veio de mão beijada. Vieram as humilhações, as portas fechadas, os que duvidaram.</p>
+          <span class="hist-tag">DO INÍCIO AO FIM — TD7 PERSISTE</span>
+        </div>
+        <div class="hist-img">
+          <img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview.webp" alt="Fundadores">
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <span class="hist-section-label">// A RESISTÊNCIA //</span>
+      <div class="hist-block rev">
+        <div class="hist-text">
+          <h2>CADA HUMILHAÇÃO VIROU COMBUSTÍVEL</h2>
+          <p>Muitos riram no começo. Outros ignoraram. Mas a Tropa do 7 fez da adversidade a sua escola. Cada derrota foi estudo, cada confronto foi aprendizado. A facção foi crescendo em silêncio, sem alardes — recrutando devagar, construindo lealdade de verdade, laço a laço, missão a missão. Quem ficou, ficou porque quis.</p>
+        </div>
+        <div class="hist-img">
+          <img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__2_.webp" alt="Membros reunidos">
+        </div>
+      </div>
+
+      <div class="quote-box">
+        <p>"A gente não começou grande. A gente começou real. E é isso que nos faz diferentes — a TD7 foi construída no suor, no respeito e na lealdade de quem ficou quando ninguém acreditava."</p>
+      </div>
+
+      <span class="hist-section-label">// A FAMÍLIA //</span>
+      <div class="gallery">
+        <div class="gal-item"><img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__4_.webp" alt="TD7"></div>
+        <div class="gal-item"><img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__3_.webp" alt="TD7"></div>
+        <div class="gal-item"><img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__5_.webp" alt="TD7"></div>
+      </div>
+
+      <div class="divider"></div>
+
+      <span class="hist-section-label">// O PRESENTE //</span>
+      <div class="hist-block">
+        <div class="hist-text">
+          <h2>UNIDOS PELO 7</h2>
+          <p>A imagem da Tropa do 7 hoje fala por si só. Membros organizados, identidade visual forte, presença marcante onde quer que apareçam. A facção que nasceu com pouquíssimas pessoas virou referência — não por acaso, mas pela força de cada um que não desistiu quando era mais fácil ir embora.</p>
+          <span class="hist-tag">TD7 — DO INÍCIO AO INFINITO</span>
+        </div>
+        <div class="hist-img">
+          <img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__5_.webp" alt="TD7 hoje">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="footer">TD7 SISTEMA PRO · v3.0 · SISTEMA INTERNO</div>
 </div>
 
 <script>
 const ITENS = {
-  'Five-seveN': { icon: '🔫', parceria: 526.00, normal: 585.00 },
-  'MTAR':       { icon: '⚙️', parceria: 702.00, normal: 780.00 },
-  'AKS':        { icon: '🪖', parceria: 661.00, normal: 735.00 },
-  'Uzi':        { icon: '💥', parceria: 560.00, normal: 622.00 },
-  'Metafetamina':{ icon:'🧪', parceria: 600.00, normal: 700.00 },
+  'Five-seveN':{icon:'🔫',parceria:526,normal:585},
+  'MTAR':{icon:'⚙️',parceria:702,normal:780},
+  'AKS':{icon:'🪖',parceria:661,normal:735},
+  'Uzi':{icon:'💥',parceria:560,normal:622},
+  'Metafetamina':{icon:'🧪',parceria:600,normal:700}
 };
+let modo='parceria';
+const fmt=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const sid=n=>'q_'+n.replace(/\W/g,'_');
 
-let modo = 'parceria';
-const fmt = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-const id  = n => 'q_' + n.replace(/\W/g,'_');
-
-function criarLista() {
-  const lista = document.getElementById('lista');
-  lista.innerHTML = '';
-  Object.entries(ITENS).forEach(([nome, dado], i) => {
-    const priceClass = modo === 'parceria' ? 'parceria-price' : 'normal-price';
-    lista.innerHTML += `
-      <div class="item-row" style="animation-delay:${i * 0.06}s">
-        <div class="item-icon">${dado.icon}</div>
-        <div class="item-info">
-          <div class="item-name">${nome}</div>
-          <div class="item-price ${priceClass}" id="p_${id(nome)}">${fmt(dado[modo])} / un</div>
-        </div>
-        <div class="item-subtotal" id="s_${id(nome)}">—</div>
-        <div class="qty-wrap">
-          <button class="qty-btn" onclick="ajustar('${nome}', -1)">−</button>
-          <input class="qty-input" type="number" min="0" value="0" id="${id(nome)}" oninput="calcular()">
-          <button class="qty-btn" onclick="ajustar('${nome}', 1)">+</button>
-        </div>
-      </div>`;
+function criarLista(){
+  const lista=document.getElementById('lista');
+  lista.innerHTML='';
+  Object.entries(ITENS).forEach(([nome,dado],i)=>{
+    const pc=modo==='parceria'?'parceria-price':'normal-price';
+    lista.innerHTML+=`<div class="item-row" style="animation:slideIn .35s ${i*.06}s both">
+      <div class="item-icon">${dado.icon}</div>
+      <div class="item-info">
+        <div class="item-name">${nome}</div>
+        <div class="item-price ${pc}" id="p_${sid(nome)}">${fmt(dado[modo])} / un</div>
+      </div>
+      <div class="item-subtotal" id="s_${sid(nome)}">—</div>
+      <div class="qty-wrap">
+        <button class="qty-btn" onclick="ajustar('${nome}',-1)">−</button>
+        <input class="qty-input" type="number" min="0" value="0" id="${sid(nome)}" oninput="calcular()">
+        <button class="qty-btn" onclick="ajustar('${nome}',1)">+</button>
+      </div>
+    </div>`;
   });
 }
 
-function ajustar(nome, delta) {
-  const inp = document.getElementById(id(nome));
-  const val = Math.max(0, (parseInt(inp.value) || 0) + delta);
-  inp.value = val;
+function ajustar(nome,delta){
+  const inp=document.getElementById(sid(nome));
+  inp.value=Math.max(0,(parseInt(inp.value)||0)+delta);
   calcular();
 }
 
-function setModo(n) {
-  modo = n;
-  document.querySelectorAll('.mode-btn').forEach(b => {
-    b.classList.remove('active-parceria', 'active-normal');
-  });
-
-  const strip  = document.getElementById('statusStrip');
-  const stText = document.getElementById('statusText');
-
-  if (modo === 'parceria') {
+function setModo(n){
+  modo=n;
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active-parceria','active-normal'));
+  const strip=document.getElementById('statusStrip');
+  const txt=document.getElementById('statusText');
+  if(modo==='parceria'){
     document.querySelector('.mode-btn.parceria').classList.add('active-parceria');
-    strip.className  = 'status-strip parceria';
-    stText.textContent = 'MODO ATIVO: COM PARCERIA';
+    strip.className='status-strip parceria';
+    txt.textContent='MODO ATIVO: COM PARCERIA';
   } else {
     document.querySelector('.mode-btn.normal').classList.add('active-normal');
-    strip.className  = 'status-strip normal';
-    stText.textContent = 'MODO ATIVO: SEM PARCERIA';
+    strip.className='status-strip normal';
+    txt.textContent='MODO ATIVO: SEM PARCERIA';
   }
-
-  // Atualiza preços inline sem recriar
-  Object.entries(ITENS).forEach(([nome, dado]) => {
-    const el = document.getElementById('p_' + id(nome));
-    if (el) {
-      el.textContent = fmt(dado[modo]) + ' / un';
-      el.className = `item-price ${modo === 'parceria' ? 'parceria-price' : 'normal-price'}`;
-    }
+  Object.entries(ITENS).forEach(([nome,dado])=>{
+    const el=document.getElementById('p_'+sid(nome));
+    if(el){el.textContent=fmt(dado[modo])+' / un';el.className='item-price '+(modo==='parceria'?'parceria-price':'normal-price');}
   });
+  calcular();
+}
 
+function calcular(){
+  let total=0;
+  Object.entries(ITENS).forEach(([nome,dado])=>{
+    const qtd=Math.max(0,parseInt(document.getElementById(sid(nome))?.value)||0);
+    const sub=qtd*dado[modo];
+    total+=sub;
+    const subEl=document.getElementById('s_'+sid(nome));
+    if(subEl){subEl.textContent=qtd>0?fmt(sub):'—';subEl.classList.toggle('nonzero',qtd>0);}
+  });
+  const sv=(elId,val)=>{const el=document.getElementById(elId);if(el)el.textContent=fmt(val);};
+  sv('total',total);sv('vendedor',total*.3);sv('empresa',total*.7);
+}
+
+function limparTudo(){
+  Object.keys(ITENS).forEach(n=>{const inp=document.getElementById(sid(n));if(inp)inp.value=0;});
   calcular();
 }
 
-function popEl(el) {
-  el.classList.remove('pop');
-  void el.offsetWidth;
-  el.classList.add('pop');
-}
-
-function calcular() {
-  let total = 0;
-
-  Object.entries(ITENS).forEach(([nome, dado]) => {
-    const qtd = Math.max(0, parseInt(document.getElementById(id(nome))?.value) || 0);
-    const sub  = qtd * dado[modo];
-    total += sub;
-
-    const subEl = document.getElementById('s_' + id(nome));
-    if (subEl) {
-      subEl.textContent = qtd > 0 ? fmt(sub) : '—';
-      subEl.classList.toggle('nonzero', qtd > 0);
-    }
-  });
-
-  const setVal = (elId, val) => {
-    const el = document.getElementById(elId);
-    if (el && el.textContent !== fmt(val)) { el.textContent = fmt(val); popEl(el); }
-  };
-
-  setVal('total',    total);
-  setVal('vendedor', total * 0.30);
-  setVal('empresa',  total * 0.70);
-}
-
-function limparTudo() {
-  Object.keys(ITENS).forEach(nome => {
-    const inp = document.getElementById(id(nome));
-    if (inp) inp.value = 0;
-  });
-  calcular();
+function switchTab(tab, el){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+  el.classList.add('active');
 }
 
 criarLista();
