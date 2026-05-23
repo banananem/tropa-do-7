@@ -14,35 +14,29 @@
   --green:#00e676;--green-dim:rgba(0,230,118,0.12);
   --red:#ff3d3d;--red-dim:rgba(255,61,61,0.12);
   --gold:#ffd740;--text:#c8ddf0;--muted:rgba(200,221,240,0.45);
+  --purple:#b39dff;--purple-dim:rgba(179,157,255,0.12);
 }
 body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);padding:0;}
-
 .td7-wrap{min-height:100vh;padding:24px 16px;background:var(--bg);background-image:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(79,195,255,0.06) 0%,transparent 60%);max-width:860px;margin:0 auto;}
-
 .header{text-align:center;margin-bottom:20px;}
 .header-badge{font-size:10px;letter-spacing:4px;color:var(--accent);opacity:.7;font-family:'Share Tech Mono',monospace;display:block;margin-bottom:4px;}
 .header h1{font-family:'Bebas Neue',cursive;font-size:clamp(32px,6vw,56px);letter-spacing:5px;color:#fff;text-shadow:0 0 30px rgba(79,195,255,0.4);}
 .header-sub{font-size:11px;letter-spacing:3px;color:var(--muted);font-family:'Share Tech Mono',monospace;margin-top:2px;}
 .header-line{height:1px;background:linear-gradient(90deg,transparent,var(--accent),transparent);margin-top:14px;opacity:.4;}
-
 .nav-tabs{display:flex;gap:0;margin-bottom:0;border-bottom:1px solid var(--border);}
 .nav-tab{flex:1;padding:14px 10px;background:rgba(255,255,255,0.02);border:1px solid var(--border);border-bottom:none;color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .2s;text-align:center;}
 .nav-tab:first-child{border-radius:12px 0 0 0;}
 .nav-tab:last-child{border-radius:0 12px 0 0;}
 .nav-tab.active{background:rgba(79,195,255,0.08);border-color:var(--accent);color:var(--accent);border-bottom:1px solid var(--bg);}
 .nav-tab:hover:not(.active){color:var(--text);background:rgba(255,255,255,0.04);}
-
 .tab-content{display:none;}
 .tab-content.active{display:block;}
-
 .card{background:var(--card);border:1px solid var(--border);border-radius:0 0 18px 18px;padding:22px;backdrop-filter:blur(10px);margin-bottom:14px;}
 .card-inner{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px;margin-bottom:14px;}
-
 .mode-switcher{display:flex;gap:10px;margin-bottom:18px;}
 .mode-btn{flex:1;padding:13px 16px;border:1px solid var(--border);border-radius:12px;background:rgba(255,255,255,0.03);color:var(--muted);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .22s;}
 .mode-btn.active-parceria{border-color:var(--green);color:var(--green);background:var(--green-dim);box-shadow:0 0 18px rgba(0,230,118,0.2);}
 .mode-btn.active-normal{border-color:var(--red);color:var(--red);background:var(--red-dim);box-shadow:0 0 18px rgba(255,61,61,0.2);}
-
 .status-strip{display:flex;align-items:center;justify-content:center;gap:10px;padding:9px 18px;border-radius:10px;font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:3px;margin-bottom:20px;}
 .status-strip.parceria{background:var(--green-dim);border:1px solid rgba(0,230,118,0.3);color:var(--green);}
 .status-strip.normal{background:var(--red-dim);border:1px solid rgba(255,61,61,0.3);color:var(--red);}
@@ -51,7 +45,7 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);pa
 .normal .pulse{background:var(--red);box-shadow:0 0 7px var(--red);}
 @keyframes pulseA{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.4;transform:scale(.7);}}
 @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
-
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .items-grid{display:flex;flex-direction:column;gap:9px;}
 .item-row{display:flex;align-items:center;gap:12px;padding:13px 16px;border-radius:12px;background:rgba(255,255,255,0.025);border:1px solid var(--border);transition:all .2s;}
 .item-row:hover{border-color:rgba(79,195,255,0.35);background:rgba(79,195,255,0.04);transform:translateX(3px);}
@@ -63,13 +57,11 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);pa
 .item-price.normal-price{color:rgba(255,61,61,.7);}
 .item-subtotal{font-family:'Share Tech Mono',monospace;font-size:13px;color:var(--accent);min-width:86px;text-align:right;}
 .item-subtotal.nonzero{color:var(--gold);text-shadow:0 0 8px rgba(255,215,64,.4);}
-
 .qty-wrap{display:flex;align-items:center;border:1px solid var(--border);border-radius:10px;overflow:hidden;flex-shrink:0;}
 .qty-btn{width:30px;height:38px;background:rgba(79,195,255,0.07);border:none;color:var(--accent);font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .15s;font-family:monospace;}
 .qty-btn:hover{background:rgba(79,195,255,0.18);}
 .qty-input{width:48px;height:38px;background:#061226;border:none;color:var(--accent);text-align:center;font-family:'Share Tech Mono',monospace;font-size:15px;font-weight:bold;outline:none;-moz-appearance:textfield;}
 .qty-input::-webkit-outer-spin-button,.qty-input::-webkit-inner-spin-button{-webkit-appearance:none;}
-
 .results-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
 .result-box{border-radius:14px;padding:18px;text-align:center;border:1px solid var(--border);background:rgba(6,18,38,0.9);}
 .result-box::before{content:'';display:block;height:2px;border-radius:2px;margin-bottom:10px;}
@@ -82,23 +74,63 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);pa
 .result-box.total .result-value{color:var(--accent);}
 .result-box.vendedor .result-value{color:var(--green);}
 .result-box.empresa .result-value{color:var(--gold);}
-
-.clear-btn{width:100%;padding:11px;background:rgba(255,61,61,0.07);border:1px solid rgba(255,61,61,0.25);border-radius:10px;color:rgba(255,100,100,.8);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .2s;margin-top:6px;}
+.action-row{display:flex;gap:10px;margin-top:10px;}
+.clear-btn{flex:1;padding:11px;background:rgba(255,61,61,0.07);border:1px solid rgba(255,61,61,0.25);border-radius:10px;color:rgba(255,100,100,.8);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .2s;}
 .clear-btn:hover{background:rgba(255,61,61,0.15);border-color:var(--red);color:var(--red);}
+.save-btn{flex:1;padding:11px;background:rgba(79,195,255,0.07);border:1px solid rgba(79,195,255,0.3);border-radius:10px;color:var(--accent);font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:3px;cursor:pointer;transition:all .2s;}
+.save-btn:hover{background:rgba(79,195,255,0.18);border-color:var(--accent);}
+.save-btn:disabled{opacity:.35;cursor:not-allowed;}
 
-.hist-section-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);opacity:.7;margin-bottom:12px;display:block;}
+/* HISTÓRICO */
+.hist-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.hist-section-label{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);opacity:.7;}
+.hist-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
+.hist-stat{background:rgba(6,18,38,0.9);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;}
+.hist-stat-num{font-family:'Bebas Neue',cursive;font-size:26px;letter-spacing:2px;}
+.hist-stat-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;margin-top:2px;}
+.hist-stat.s-total .hist-stat-num{color:var(--accent);}
+.hist-stat.s-vend .hist-stat-num{color:var(--green);}
+.hist-stat.s-emp .hist-stat-num{color:var(--gold);}
+
+.hist-list{display:flex;flex-direction:column;gap:10px;}
+.hist-entry{background:rgba(8,15,32,0.8);border:1px solid var(--border);border-radius:14px;padding:16px;animation:fadeUp .3s ease;}
+.hist-entry-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.hist-entry-meta{display:flex;align-items:center;gap:10px;}
+.hist-badge{font-family:'Share Tech Mono',monospace;font-size:9px;letter-spacing:2px;padding:3px 8px;border-radius:6px;}
+.hist-badge.parceria{background:var(--green-dim);border:1px solid rgba(0,230,118,.3);color:var(--green);}
+.hist-badge.normal{background:var(--red-dim);border:1px solid rgba(255,61,61,.3);color:var(--red);}
+.hist-date{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);}
+.hist-del-btn{background:none;border:none;color:rgba(255,100,100,.4);font-size:16px;cursor:pointer;padding:2px 6px;border-radius:6px;transition:color .2s;}
+.hist-del-btn:hover{color:var(--red);}
+.hist-entry-values{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;}
+.hist-val{text-align:center;}
+.hist-val-lbl{font-family:'Share Tech Mono',monospace;font-size:9px;color:var(--muted);letter-spacing:2px;}
+.hist-val-num{font-family:'Share Tech Mono',monospace;font-size:13px;font-weight:bold;margin-top:3px;}
+.hist-val.tv .hist-val-num{color:var(--accent);}
+.hist-val.vv .hist-val-num{color:var(--green);}
+.hist-val.ev .hist-val-num{color:var(--gold);}
+.hist-items-detail{display:flex;flex-wrap:wrap;gap:6px;}
+.hist-item-pill{font-family:'Share Tech Mono',monospace;font-size:10px;padding:3px 9px;background:rgba(79,195,255,0.07);border:1px solid rgba(79,195,255,0.15);border-radius:20px;color:var(--accent);}
+
+.hist-empty{text-align:center;padding:40px 20px;color:var(--muted);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;}
+.hist-empty-icon{font-size:36px;margin-bottom:12px;opacity:.3;}
+
+.clear-hist-btn{padding:8px 16px;background:rgba(255,61,61,0.07);border:1px solid rgba(255,61,61,0.2);border-radius:8px;color:rgba(255,100,100,.7);font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:700;letter-spacing:2px;cursor:pointer;transition:all .2s;}
+.clear-hist-btn:hover{background:rgba(255,61,61,0.15);color:var(--red);}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(0,230,118,0.15);border:1px solid rgba(0,230,118,.4);color:var(--green);font-family:'Share Tech Mono',monospace;font-size:12px;letter-spacing:2px;padding:10px 20px;border-radius:10px;opacity:0;transition:all .3s;z-index:999;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
 .hist-hero{position:relative;width:100%;height:340px;border-radius:14px;overflow:hidden;margin-bottom:22px;}
 .hist-hero img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block;}
 .hist-hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.85) 0%,rgba(0,0,0,.1) 65%,transparent 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:22px;}
 .hist-hero-tag{font-size:10px;font-weight:700;letter-spacing:4px;color:var(--green);margin-bottom:4px;font-family:'Share Tech Mono',monospace;}
 .hist-hero-title{font-family:'Bebas Neue',cursive;font-size:clamp(28px,5vw,46px);color:#fff;letter-spacing:3px;line-height:1.1;}
 .hist-hero-sub{font-size:12px;color:rgba(255,255,255,.55);margin-top:4px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
-
 .stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
 .stat-box{background:rgba(8,15,32,0.8);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;}
 .stat-num{font-family:'Bebas Neue',cursive;font-size:28px;color:var(--accent);letter-spacing:2px;}
 .stat-lbl{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--muted);letter-spacing:2px;margin-top:3px;}
-
 .hist-block{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;margin-bottom:22px;}
 .hist-block.rev{direction:rtl;}
 .hist-block.rev>*{direction:ltr;}
@@ -108,41 +140,37 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);pa
 .hist-img{border-radius:12px;overflow:hidden;height:220px;}
 .hist-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
 .hist-img:hover img{transform:scale(1.04);}
-
 .quote-box{background:rgba(0,230,118,0.05);border-left:3px solid var(--green);padding:16px 18px;margin:18px 0;border-radius:0 10px 10px 0;}
 .quote-box p{font-size:14px;line-height:1.7;color:var(--text);font-style:italic;}
-
 .gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:20px;}
 .gal-item{border-radius:10px;overflow:hidden;height:160px;}
 .gal-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
 .gal-item:hover img{transform:scale(1.05);}
-
 .divider{border:none;border-top:1px solid var(--border);margin:18px 0;}
 .footer{text-align:center;margin-top:14px;font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:rgba(79,195,255,.2);}
-
 @media(max-width:520px){
   .hist-block{grid-template-columns:1fr;}
   .hist-block.rev{direction:ltr;}
   .gallery{grid-template-columns:1fr 1fr;}
-  .results-grid,.stats-grid{grid-template-columns:1fr;}
+  .results-grid,.stats-grid,.hist-stats,.hist-entry-values{grid-template-columns:1fr;}
   .mode-switcher{flex-direction:column;}
+  .action-row{flex-direction:column;}
 }
 </style>
 </head>
 <body>
-
 <div class="td7-wrap">
-
   <div class="header">
     <span class="header-badge">// SISTEMA OPERACIONAL TD7 //</span>
     <h1>TD7 SISTEMA PRO</h1>
-    <div class="header-sub">GESTÃO INTERNA · CALCULADORA · HISTÓRIA</div>
+    <div class="header-sub">GESTÃO INTERNA · CALCULADORA · HISTÓRICO · HISTÓRIA</div>
     <div class="header-line"></div>
   </div>
 
   <div class="nav-tabs">
-    <div class="nav-tab active" onclick="switchTab('calc', this)">🔫 CALCULADORA</div>
-    <div class="nav-tab" onclick="switchTab('hist', this)">📖 HISTÓRIA</div>
+    <div class="nav-tab active" onclick="switchTab('calc',this)">🔫 CALCULADORA</div>
+    <div class="nav-tab" onclick="switchTab('historico',this)">🗃️ HISTÓRICO</div>
+    <div class="nav-tab" onclick="switchTab('hist',this)">📖 HISTÓRIA</div>
   </div>
 
   <!-- ABA CALCULADORA -->
@@ -157,7 +185,10 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);pa
         <span id="statusText">MODO ATIVO: COM PARCERIA</span>
       </div>
       <div id="lista" class="items-grid"></div>
-      <button class="clear-btn" onclick="limparTudo()">✕ LIMPAR TUDO</button>
+      <div class="action-row">
+        <button class="clear-btn" onclick="limparTudo()">✕ LIMPAR TUDO</button>
+        <button class="save-btn" id="saveBtn" onclick="salvarCalculo()" disabled>💾 SALVAR CÁLCULO</button>
+      </div>
     </div>
     <div class="card-inner">
       <div class="results-grid">
@@ -179,10 +210,25 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);pa
     </div>
   </div>
 
+  <!-- ABA HISTÓRICO -->
+  <div id="tab-historico" class="tab-content">
+    <div class="card" style="border-radius:0 0 18px 18px;">
+      <div class="hist-header">
+        <span class="hist-section-label">// BANCO DE DADOS LOCAL //</span>
+        <button class="clear-hist-btn" onclick="limparHistorico()">✕ LIMPAR TUDO</button>
+      </div>
+      <div class="hist-stats" id="histStats">
+        <div class="hist-stat s-total"><div class="hist-stat-num" id="hTotalAcum">R$ 0</div><div class="hist-stat-lbl">TOTAL ACUMULADO</div></div>
+        <div class="hist-stat s-vend"><div class="hist-stat-num" id="hVendAcum">R$ 0</div><div class="hist-stat-lbl">VENDEDOR ACUM.</div></div>
+        <div class="hist-stat s-emp"><div class="hist-stat-num" id="hEmpAcum">R$ 0</div><div class="hist-stat-lbl">EMPRESA ACUM.</div></div>
+      </div>
+      <div id="histList" class="hist-list"></div>
+    </div>
+  </div>
+
   <!-- ABA HISTÓRIA -->
   <div id="tab-hist" class="tab-content">
     <div class="card" style="border-radius:0 0 18px 18px;">
-
       <div class="hist-hero">
         <img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__3_.webp" alt="Tropa do 7">
         <div class="hist-hero-overlay">
@@ -191,71 +237,48 @@ body{font-family:'Rajdhani',sans-serif;background:var(--bg);color:var(--text);pa
           <div class="hist-hero-sub">De carros iniciais às ruas — a história de quem não desistiu</div>
         </div>
       </div>
-
       <div class="stats-grid">
         <div class="stat-box"><div class="stat-num">TD7</div><div class="stat-lbl">IDENTIFICAÇÃO</div></div>
         <div class="stat-box"><div class="stat-num">20+</div><div class="stat-lbl">MEMBROS ATIVOS</div></div>
         <div class="stat-box"><div class="stat-num">∞</div><div class="stat-lbl">LEALDADE</div></div>
       </div>
-
-      <span class="hist-section-label">// A ORIGEM //</span>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);opacity:.7;margin-bottom:12px;display:block;">// A ORIGEM //</span>
       <div class="hist-block">
         <div class="hist-text">
           <h2>COMEÇOU DO ZERO</h2>
-          <p>A Tropa do 7 nasceu da forma mais humilde possível: poucos amigos, carros iniciais, e muita vontade de construir algo próprio. No começo a rotina era simples — rodar pelos bairros tentando recrutar alguém que acreditasse no projeto. O respeito não veio de mão beijada. Vieram as humilhações, as portas fechadas, os que duvidaram.</p>
+          <p>A Tropa do 7 nasceu da forma mais humilde possível: poucos amigos, carros iniciais, e muita vontade de construir algo próprio. No começo a rotina era simples — rodar pelos bairros tentando recrutar alguém que acreditasse no projeto.</p>
           <span class="hist-tag">DO INÍCIO AO FIM — TD7 PERSISTE</span>
         </div>
-        <div class="hist-img">
-          <img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview.webp" alt="Fundadores">
-        </div>
+        <div class="hist-img"><img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview.webp" alt="Fundadores"></div>
       </div>
-
       <div class="divider"></div>
-
-      <span class="hist-section-label">// A RESISTÊNCIA //</span>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);opacity:.7;margin-bottom:12px;display:block;">// A RESISTÊNCIA //</span>
       <div class="hist-block rev">
         <div class="hist-text">
           <h2>CADA HUMILHAÇÃO VIROU COMBUSTÍVEL</h2>
-          <p>Muitos riram no começo. Outros ignoraram. Mas a Tropa do 7 fez da adversidade a sua escola. Cada derrota foi estudo, cada confronto foi aprendizado. A facção foi crescendo em silêncio, sem alardes — recrutando devagar, construindo lealdade de verdade, laço a laço, missão a missão. Quem ficou, ficou porque quis.</p>
+          <p>Muitos riram no começo. Outros ignoraram. Mas a Tropa do 7 fez da adversidade a sua escola. Cada derrota foi estudo, cada confronto foi aprendizado.</p>
         </div>
-        <div class="hist-img">
-          <img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__2_.webp" alt="Membros reunidos">
-        </div>
+        <div class="hist-img"><img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__2_.webp" alt="Membros reunidos"></div>
       </div>
-
       <div class="quote-box">
         <p>"A gente não começou grande. A gente começou real. E é isso que nos faz diferentes — a TD7 foi construída no suor, no respeito e na lealdade de quem ficou quando ninguém acreditava."</p>
       </div>
-
-      <span class="hist-section-label">// A FAMÍLIA //</span>
+      <span style="font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:3px;color:var(--accent);opacity:.7;margin-bottom:12px;display:block;">// A FAMÍLIA //</span>
       <div class="gallery">
         <div class="gal-item"><img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__4_.webp" alt="TD7"></div>
         <div class="gal-item"><img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__3_.webp" alt="TD7"></div>
         <div class="gal-item"><img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__5_.webp" alt="TD7"></div>
       </div>
-
-      <div class="divider"></div>
-
-      <span class="hist-section-label">// O PRESENTE //</span>
-      <div class="hist-block">
-        <div class="hist-text">
-          <h2>UNIDOS PELO 7</h2>
-          <p>A imagem da Tropa do 7 hoje fala por si só. Membros organizados, identidade visual forte, presença marcante onde quer que apareçam. A facção que nasceu com pouquíssimas pessoas virou referência — não por acaso, mas pela força de cada um que não desistiu quando era mais fácil ir embora.</p>
-          <span class="hist-tag">TD7 — DO INÍCIO AO INFINITO</span>
-        </div>
-        <div class="hist-img">
-          <img src="https://raw.githubusercontent.com/banananem/tropa-do-7/main/assets/preview__5_.webp" alt="TD7 hoje">
-        </div>
-      </div>
-
     </div>
   </div>
 
-  <div class="footer">TD7 SISTEMA PRO · v3.0 · SISTEMA INTERNO</div>
+  <div class="footer">TD7 SISTEMA PRO · v4.0 · SISTEMA INTERNO · DB LOCAL ATIVO</div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-const ITENS = {
+const ITENS={
   'Five-seveN':{icon:'🔫',parceria:526,normal:585},
   'MTAR':{icon:'⚙️',parceria:702,normal:780},
   'AKS':{icon:'🪖',parceria:661,normal:735},
@@ -264,7 +287,24 @@ const ITENS = {
 };
 let modo='parceria';
 const fmt=v=>v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const fmtShort=v=>{if(v>=1000)return'R$'+(v/1000).toFixed(1)+'k';return fmt(v);};
 const sid=n=>'q_'+n.replace(/\W/g,'_');
+const DB_KEY='td7_historico_v1';
+
+function loadDB(){
+  try{return JSON.parse(localStorage.getItem(DB_KEY)||'[]');}catch{return[];}
+}
+function saveDB(arr){localStorage.setItem(DB_KEY,JSON.stringify(arr));}
+
+function showToast(msg,tipo='ok'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=tipo==='ok'?'rgba(0,230,118,0.15)':'rgba(255,61,61,0.15)';
+  t.style.borderColor=tipo==='ok'?'rgba(0,230,118,.4)':'rgba(255,61,61,.4)';
+  t.style.color=tipo==='ok'?'var(--green)':'var(--red)';
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
 
 function criarLista(){
   const lista=document.getElementById('lista');
@@ -302,7 +342,7 @@ function setModo(n){
     document.querySelector('.mode-btn.parceria').classList.add('active-parceria');
     strip.className='status-strip parceria';
     txt.textContent='MODO ATIVO: COM PARCERIA';
-  } else {
+  }else{
     document.querySelector('.mode-btn.normal').classList.add('active-normal');
     strip.className='status-strip normal';
     txt.textContent='MODO ATIVO: SEM PARCERIA';
@@ -314,6 +354,7 @@ function setModo(n){
   calcular();
 }
 
+let currentTotal=0;
 function calcular(){
   let total=0;
   Object.entries(ITENS).forEach(([nome,dado])=>{
@@ -325,6 +366,9 @@ function calcular(){
   });
   const sv=(elId,val)=>{const el=document.getElementById(elId);if(el)el.textContent=fmt(val);};
   sv('total',total);sv('vendedor',total*.3);sv('empresa',total*.7);
+  currentTotal=total;
+  const saveBtn=document.getElementById('saveBtn');
+  if(saveBtn)saveBtn.disabled=total===0;
 }
 
 function limparTudo(){
@@ -332,15 +376,88 @@ function limparTudo(){
   calcular();
 }
 
-function switchTab(tab, el){
+function salvarCalculo(){
+  if(currentTotal===0)return;
+  const itens=[];
+  Object.entries(ITENS).forEach(([nome,dado])=>{
+    const qtd=parseInt(document.getElementById(sid(nome))?.value)||0;
+    if(qtd>0)itens.push({nome,icon:dado.icon,qtd,sub:qtd*dado[modo]});
+  });
+  const registro={
+    id:Date.now(),
+    data:new Date().toLocaleString('pt-BR'),
+    modo,
+    total:currentTotal,
+    vendedor:currentTotal*.3,
+    empresa:currentTotal*.7,
+    itens
+  };
+  const db=loadDB();
+  db.unshift(registro);
+  saveDB(db);
+  showToast('✓ CÁLCULO SALVO NO BANCO DE DADOS');
+  renderHistorico();
+}
+
+function deletarRegistro(id){
+  const db=loadDB().filter(r=>r.id!==id);
+  saveDB(db);
+  renderHistorico();
+  showToast('REGISTRO REMOVIDO','err');
+}
+
+function limparHistorico(){
+  if(!confirm('Limpar todo o histórico?'))return;
+  saveDB([]);
+  renderHistorico();
+  showToast('HISTÓRICO LIMPO','err');
+}
+
+function renderHistorico(){
+  const db=loadDB();
+  const container=document.getElementById('histList');
+  const totalAcum=db.reduce((s,r)=>s+r.total,0);
+  const vendAcum=db.reduce((s,r)=>s+r.vendedor,0);
+  const empAcum=db.reduce((s,r)=>s+r.empresa,0);
+  document.getElementById('hTotalAcum').textContent=fmtShort(totalAcum);
+  document.getElementById('hVendAcum').textContent=fmtShort(vendAcum);
+  document.getElementById('hEmpAcum').textContent=fmtShort(empAcum);
+  if(db.length===0){
+    container.innerHTML=`<div class="hist-empty"><div class="hist-empty-icon">🗃️</div>NENHUM CÁLCULO SALVO<br><br>Faça um cálculo e clique em<br>💾 SALVAR CÁLCULO</div>`;
+    return;
+  }
+  container.innerHTML=db.map(r=>`
+    <div class="hist-entry">
+      <div class="hist-entry-header">
+        <div class="hist-entry-meta">
+          <span class="hist-badge ${r.modo}">${r.modo==='parceria'?'🤝 PARCERIA':'🔒 NORMAL'}</span>
+          <span class="hist-date">${r.data}</span>
+        </div>
+        <button class="hist-del-btn" onclick="deletarRegistro(${r.id})">✕</button>
+      </div>
+      <div class="hist-entry-values">
+        <div class="hist-val tv"><div class="hist-val-lbl">TOTAL</div><div class="hist-val-num">${fmt(r.total)}</div></div>
+        <div class="hist-val vv"><div class="hist-val-lbl">VENDEDOR</div><div class="hist-val-num">${fmt(r.vendedor)}</div></div>
+        <div class="hist-val ev"><div class="hist-val-lbl">EMPRESA</div><div class="hist-val-num">${fmt(r.empresa)}</div></div>
+      </div>
+      <div class="hist-items-detail">
+        ${r.itens.map(it=>`<span class="hist-item-pill">${it.icon} ${it.nome} ×${it.qtd}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function switchTab(tab,el){
   document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('tab-'+tab).classList.add('active');
   el.classList.add('active');
+  if(tab==='historico')renderHistorico();
 }
 
 criarLista();
 calcular();
+renderHistorico();
 </script>
 </body>
 </html>
